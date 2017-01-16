@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
     private void switchFragment(Fragment currentFragment) {
         if (tempFragment != currentFragment) {
 
