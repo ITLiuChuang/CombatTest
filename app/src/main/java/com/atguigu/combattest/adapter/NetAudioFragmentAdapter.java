@@ -51,6 +51,7 @@ public class NetAudioFragmentAdapter extends BaseAdapter {
 
     /**
      * 返回总数量
+     *
      * @return
      */
     @Override
@@ -91,7 +92,6 @@ public class NetAudioFragmentAdapter extends BaseAdapter {
     }
 
 
-
     @Override
     public Object getItem(int position) {
         return null;
@@ -108,7 +108,30 @@ public class NetAudioFragmentAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private View initView(View convertView, int itemViewType, NetAudioBean.ListBean listBean) {
+    private View initView(View convertView, int itemViewType, NetAudioBean.ListBean mediaItem) {
+        switch (itemViewType) {
+            case TYPE_VIDEO://视频
+
+
+                break;
+            case TYPE_IMAGE://图片
+
+                break;
+            case TYPE_TEXT://文字
+
+
+
+                break;
+            case TYPE_GIF://gif
+
+
+
+                break;
+            case TYPE_AD://软件广告
+
+
+                break;
+        }
         return convertView;
     }
 
