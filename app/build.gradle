@@ -30,4 +30,9 @@ dependencies {
     compile files('libs/gson-2.1.jar')
     compile files('libs/picasso-2.5.2.jar')
     compile files('libs/xUtils-3.1.22.jar')
+    compile project(':jcvideoplayer-lib')
+    compile project(':PhotoView_library')
+    compile project(path: ':jcvideoplayer-lib')
+//    compile 'fm.jiecao:jiecaovideoplayer:4.8.3'
+  
 }

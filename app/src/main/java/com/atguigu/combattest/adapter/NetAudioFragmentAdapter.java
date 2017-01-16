@@ -1,10 +1,12 @@
 package com.atguigu.combattest.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.atguigu.combattest.R;
 import com.atguigu.combattest.bean.NetAudioBean;
 
 import java.util.List;
@@ -112,23 +114,76 @@ public class NetAudioFragmentAdapter extends BaseAdapter {
         switch (itemViewType) {
             case TYPE_VIDEO://视频
 
+                VideoHoder videoHoder;
+                if (convertView == null) {
+                    convertView = View.inflate(mContext, R.layout.all_video_item, null);
+                    videoHoder = new VideoHoder(convertView);
+                    convertView.setTag(videoHoder);
+                } else {
+                    videoHoder = (VideoHoder) convertView.getTag();
+                }
+                Log.e("TAG","asssasa");
+                //设置数据
+                videoHoder.setData(mediaItem);
+
 
                 break;
             case TYPE_IMAGE://图片
-
+//                ImageHolder imageHolder;
+//                if (convertView == null) {
+//                    convertView = View.inflate(mContext, R.layout.all_image_item, null);
+//                    imageHolder = new ImageHolder(convertView);
+//                    convertView.setTag(imageHolder);
+//                } else {
+//                    imageHolder = (ImageHolder) convertView.getTag();
+//                }
+//                //设置数据
+//                imageHolder.setData(mediaItem);
                 break;
             case TYPE_TEXT://文字
 
+              /*  TextHolder textHolder;
+                if (convertView == null) {
+                    convertView = View.inflate(mContext, R.layout.all_text_item, null);
+                    textHolder = new TextHolder(convertView);
 
+                    convertView.setTag(textHolder);
+                } else {
+                    textHolder = (TextHolder) convertView.getTag();
+                }
+
+                textHolder.setData(mediaItem);*/
 
                 break;
             case TYPE_GIF://gif
+/*
 
+                GifHolder gifHolder;
+                if (convertView == null) {
+                    convertView = View.inflate(mContext, R.layout.all_gif_item, null);
+                    gifHolder = new GifHolder(convertView);
 
+                    convertView.setTag(gifHolder);
+                } else {
+                    gifHolder = (GifHolder) convertView.getTag();
+                }
+
+                gifHolder.setData(mediaItem);
+*/
 
                 break;
             case TYPE_AD://软件广告
+/*
 
+                ADHolder adHolder;
+                if (convertView == null) {
+                    convertView = View.inflate(mContext, R.layout.all_ad_item, null);
+                    adHolder = new ADHolder(convertView);
+                    convertView.setTag(adHolder);
+                } else {
+                    adHolder = (ADHolder) convertView.getTag();
+                }
+*/
 
                 break;
         }

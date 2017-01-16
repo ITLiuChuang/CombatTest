@@ -1,9 +1,7 @@
 package com.atguigu.combattest.fragment;
 
-import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -27,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by 刘闯 on 2017/1/16.
@@ -51,11 +50,10 @@ public class NetAudioFragment extends BaseFragment {
     @Override
     public View initView() {
         Log.e("TAG", "网络音频ui初始化了。。");
-        textView = new TextView(mContext);
-        textView.setTextColor(Color.RED);
-        textView.setGravity(Gravity.CENTER);
-        textView.setTextSize(25);
-        return textView;
+        View view = View.inflate(mContext, R.layout.fragment_net_audio, null);
+        ButterKnife.bind(this, view);
+        return view;
+
     }
 
     @Override
@@ -75,10 +73,7 @@ public class NetAudioFragment extends BaseFragment {
 
     private void processData(String result) {
 
-        NetAudioBean netAudioBean = (NetAudioBean) parsedJson(result);
-        LogUtil.e(netAudioBean.getList().get(0).getText() + "-----------");
-
-        datas = netAudioBean.getList();
+        datas = parsedJson(result);
 
         if (datas != null && datas.size() > 0) {
             //有视频
@@ -96,27 +91,6 @@ public class NetAudioFragment extends BaseFragment {
 
     }
 
-    private void showData() {
-       /* if (mediaItems != null && mediaItems.size() > 0) {
-            //有数据
-            //刷新适配器
-            adapter = new NetVideoPagerAdapter(mContext, mediaItems);
-            listNetVideo.setAdapter(adapter);
-            //把文本隐藏
-            tvNonet.setVisibility(View.GONE);
-            onLoad();
-
-        } else {
-            //没有数据
-            //文本显示
-            tvNonet.setVisibility(View.VISIBLE);
-        }
-
-
-        //ProgressBar隐藏
-        pdLoadingNetVideo.setVisibility(View.GONE);*/
-    }
-
     /**
      * 使用Gson解析json数据
      *
@@ -128,12 +102,6 @@ public class NetAudioFragment extends BaseFragment {
         return netAudioBean.getList();
     }
 
-  /*  @Override
-    public void onRefrshData() {
-        super.onRefrshData();
-        textView.setText("网络音频刷新");
-//        Log.e("TAG","onHiddenChanged。。"+this.toString());
-    }*/
 
     public void getDataFromNet() {
         RequestParams reques = new RequestParams(Constants.NET_AUDIO_URL);
@@ -165,4 +133,11 @@ public class NetAudioFragment extends BaseFragment {
 
 
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
 }

@@ -1,5 +1,7 @@
 package com.atguigu.combattest;
 
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -12,28 +14,48 @@ import com.atguigu.combattest.fragment.RecyclerviewFragment;
 
 import java.util.ArrayList;
 
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+
 public class MainActivity extends AppCompatActivity {
     private RadioGroup rg_main;
-    private ArrayList<BaseFragment> fragments;
+    /**
+     * 各个页面的Fragment
+     */
+
+    private ArrayList<BaseFragment> baseFragments;
 
     /**
      * Fragment页面的下标位置
      */
-    private int position;
+    private int position = 0;
     /**
      * 缓存的Fragment
      */
     private Fragment tempFragment;
+    private Fragment mContent;
+
+    SensorManager sensorManager;
+    JCVideoPlayer.JCAutoFullscreenListener sensorEventListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         rg_main = (RadioGroup) findViewById(R.id.rg_main);
+        initView();
+
         initFragment();
 
         //设置RadioGroup的监听
         initListenter();
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        sensorEventListener = new JCVideoPlayer.JCAutoFullscreenListener();
+
+    }
+
+    private void initView() {
+
     }
 
     private void initListenter() {
@@ -49,9 +71,8 @@ public class MainActivity extends AppCompatActivity {
                         position = 1;
                         break;
                 }
-
                 //Fragment-当前的Fragment
-                Fragment currentFragment = fragments.get(position);
+                Fragment currentFragment = baseFragments.get(position);
                 switchFragment(currentFragment);
             }
         });
@@ -97,13 +118,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     private void initFragment() {
-        fragments = new ArrayList<>();
-        fragments.add(new NetAudioFragment());//网络音乐
-        fragments.add(new RecyclerviewFragment());//Recyclerview
+        baseFragments = new ArrayList<>();
+        baseFragments.add(new NetAudioFragment());//网络音乐
+        baseFragments.add(new RecyclerviewFragment());//Recyclerview
 
 
     }
+    protected void onResume() {
+        super.onResume();
+        Sensor accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensorManager.registerListener(sensorEventListener, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(sensorEventListener);
+        JCVideoPlayer.releaseAllVideos();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (JCVideoPlayer.backPress()) {
+            return;
+        }
+        super.onBackPressed();
+    }
+
 
 }
